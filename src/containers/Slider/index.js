@@ -24,8 +24,7 @@ const Slider = () => {
   });
 
   const handleChange = (e) => {
-    // Gestion du changement d'option dans la pagination
-    setIndex(parseInt(e.target.value, 10)); // Mise à jour de l'index en fonction de la valeur sélectionnée
+    setIndex(parseInt(e.target.value, 10)); // update pagination
   };
   return (
     <div className="SlideCardList">
