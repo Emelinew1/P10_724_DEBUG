@@ -8,23 +8,31 @@ const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
-    new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
+    new Date(evtA.date) > new Date(evtB.date) ? -1 : 1 // Sort by date desc
   );
+
   const nextCard = () => {
-    setTimeout(
-      () => setIndex(index < byDateDesc.length ? index + 1 : 0),
-      5000
-    );
+    if (byDateDesc) {
+      setTimeout(
+        () => setIndex(index < byDateDesc.length - 1 ? index + 1 : 0), // error add -1 
+        5000
+      );
+    }
   };
   useEffect(() => {
     nextCard();
   });
+
+  const handleChange = (e) => {
+    // Gestion du changement d'option dans la pagination
+    setIndex(parseInt(e.target.value, 10)); // Mise à jour de l'index en fonction de la valeur sélectionnée
+  };
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
+        // Adding a div inside the map function to assign a unique ID to each parent element.
+        <div key={event.title}>
           <div
-            key={event.title}
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
@@ -41,16 +49,18 @@ const Slider = () => {
           <div className="SlideCard__paginationContainer">
             <div className="SlideCard__pagination">
               {byDateDesc.map((_, radioIdx) => (
-                <input
-                  key={`${event.id}`}
-                  type="radio"
-                  name="radio-button"
-                  checked={idx === radioIdx}
-                />
+                 <input              
+                 key={event.id}
+                 type="radio"
+                 name="radio-button"
+                 value={radioIdx}
+                 checked={index === radioIdx}
+                 onChange={handleChange}
+               />
               ))}
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );

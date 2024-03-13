@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import EventCard from "../../components/EventCard";
 import Select from "../../components/Select";
 import { useData } from "../../contexts/DataContext";
@@ -13,12 +14,11 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+  
   const filteredEvents = (
-    (!type
-      ? data?.events
-      : data?.events) || []
+    (!type ? data?.events : data?.events) || []
   ).filter((event, index) => {
-    if (
+    if ((!type || event.type === type) && 
       (currentPage - 1) * PER_PAGE <= index &&
       PER_PAGE * currentPage > index
     ) {
