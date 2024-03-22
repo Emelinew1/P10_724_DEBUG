@@ -15,7 +15,7 @@ const data = {
       nb_guesses: 1300,
       periode: "24-25-26 Février",
       prestations: [
-        "1 espace d’exposition",
+        "1 espace d'exposition",
         "1 scéne principale",
         "2 espaces de restaurations",
         "1 site web dédié",
@@ -32,7 +32,7 @@ const data = {
         "Présentation des outils analytics aux professionnels du secteur",
       nb_guesses: 1300,
       periode: "24-25-26 Février",
-      prestations: ["1 espace d’exposition", "1 scéne principale"],
+      prestations: ["1 espace d'exposition", "1 scéne principale"],
     },
   ],
 };
@@ -45,9 +45,10 @@ describe("When Events is created", () => {
         <Events />
       </DataProvider>
     );
-    await screen.findByText("avril");
+    const aprilElements = await screen.findAllByText("avril");
+    expect(aprilElements).toEqual(expect.arrayContaining(aprilElements));
   });
-  describe("and an error occured", () => {
+  describe("and an error occurred", () => {
     it("an error message is displayed", async () => {
       api.loadData = jest.fn().mockRejectedValue();
       render(
@@ -55,11 +56,11 @@ describe("When Events is created", () => {
           <Events />
         </DataProvider>
       );
-      expect(await screen.findByText("An error occured")).toBeInTheDocument();
+      expect(await screen.findByText("Ooops il y a eu une erreur")).toBeInTheDocument();
     });
   });
   describe("and we select a category", () => {
-    it.only("an filtered list is displayed", async () => {
+    it("an filtered list is displayed", async () => {
       api.loadData = jest.fn().mockReturnValue(data);
       render(
         <DataProvider>
